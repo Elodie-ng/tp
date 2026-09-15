@@ -26,6 +26,6 @@ En assignant un `float` (50.5) à un champ défini comme `Decimal` dans un `Type
 ### Étape 7 : Retry
 Face à une erreur d'insertion en base :
 - **Erreurs justifiant un retry :** `sqlite3.OperationalError` (ex: `database is locked`). C'est une erreur de concurrence transitoire. Attendre quelques millisecondes et réessayer permet souvent de passer.
-- **Erreurs ne justifiant aucun retry :** `sqlite3.IntegrityError` (contrainte d'unicité violée) ou `sqlite3.ProgrammingError` (syntaxe SQL invalide). Ce sont des erreurs déterministes. Le résultat sera perpétuellement un échec.
+- **Erreurs ne justifiant aucun retry :** `sqlite3.IntegrityError` ou `sqlite3.ProgrammingError` (syntaxe SQL invalide). Ce sont des erreurs déterministes. Le résultat sera toujours un échec.
 
 **Implémentation :** Une boucle avec un `time.sleep()` intercepte les `OperationalError` pour tenter jusqu'à 3 réinsertions, tandis que les autres exceptions remontent directement pour stopper la pipeline.
